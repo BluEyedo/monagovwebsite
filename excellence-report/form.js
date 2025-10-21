@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // حفظها مرة أخرى
             localStorage.setItem("excellenceReport", JSON.stringify(currentData));
             console.log("Data saved to localStorage:", data);
-            alert('Form submitted and data saved locally!');
+            alert("تم حفظ البيانات في LocalStorage بنجاح!");
             // You might want to reset the form after successful submission
             form.reset();
 
