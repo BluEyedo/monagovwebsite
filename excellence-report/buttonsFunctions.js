@@ -70,7 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
               <thead>
                 <tr>
                   <th class="text-xs text-center">م</th>
-                  <th class="text-xs text-center w-[60px]">الفريق التنفيذي</th>
+                  <th class="text-center text-xs border px-4 py-2 w-[60px]">التاريخ</th>
+            <th class="text-center text-xs border px-4 py-2 w-[60px]">الفريق التنفيذي</th>
+            <th class="text-center text-xs border px-4 py-2 w-[60px]">اللجنة</th>
                   <th class="text-xs text-center">اسم المشرفة</th>
                   <th class="text-xs text-center">المرحلة</th>
                   <th class="text-xs text-center">المدرسة</th>
@@ -87,11 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
           (item, index) => {
             var scope = scopeJson.find(f => f.scopeId == item.scope);
             var pointer = scope.pointer.find(f => f.pointerId == item.pointer);
+            var pIx = 0
+            var mIx = 0
 
             return `
                   <tr>
                   <td class="text-xs">${index + 1}</td>
-                  <td class="text-xs">${item.team}</td>
+                  <td class="text-xs border px-4 py-2">${findDay(item.date)} ${item.date}</td>
+                  <td class="text-xs border px-4 py-2">${item.team}</td>
+                  <td class="text-xs border px-4 py-2">${item.job}</td>
                   <td class="text-xs">${item.advisorName}</td>
                   <td class="text-xs">
                     ${item.stage == "1" ? "طفولة مبكرة" : ""}
@@ -102,24 +108,29 @@ document.addEventListener("DOMContentLoaded", () => {
                   <td class="text-xs">${item.school}</td>
                   <td class="text-xs text-center">${item.term == "1" ? "الفصل الأول" : "الفصل الثاني"}</td>
                   <td class="text-xs text-center">${scope?.label}</td>
-                  <td class="border px-4 py-2 text-start ">${item.pointer.map((p, i) => {
+                  <td class="text-xs border px-4 py-2 text-start">
+                  ${item.pointer.map((p, i) => {
               if (p == "add") {
-                return `<p>${i + 1}. ${item.newPointer}</p>`;
+                pIx += 1;
+                return `<p>${i + 1}. ${item.newPointer[pIx - 1]}</p>`;
               } else {
                 var pointer = scope.pointer.find(f => f.pointerId == p);
                 return `<p>${i + 1}. ${pointer.label}</p>`;
               }
-            }).join("")}</td>
-            <td class="border px-4 py-2 text-start">
-            ${item.method.map((m, i) => {
+            }).join("")}
+                </td>
+                <td class="text-xs border px-4 py-2 text-start">
+                  ${item.method.map((m, i) => {
+
               if (m == "add") {
-                return `<p>${i + 1}. ${item.newMethod}</p>`;
+                mIx += 1;
+                return `<p>${i + 1}. ${item.newMethod[mIx - 1]}</p>`
               } else {
                 var method = methodJson.find(f => f.methodId == m);
-
                 return `<p>${i + 1}. ${method.label}</p>`;
               }
             }).join("")}
+                </td>
           </td>
                     <td class="">${item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"}</td>
                   </tr >
@@ -151,18 +162,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     let csv =
-      `م,الفريق التنفيذي,اسم المشرفة,المرحلة,المدرسة,الفصل الدراسي,المجال,مؤشر الأداء,الإجراءات والأساليب المنفذة،حالة الإنجاز\n`;
+      `م,التاريخ,الفريق التنفيذي,اللجنة,اسم المشرفة,المرحلة,المدرسة,الفصل الدراسي,المجال,مؤشر الأداء,الإجراءات والأساليب المنفذة،حالة الإنجاز\n`;
 
 
     data.forEach((item, index) => {
       const clean = (str) => `"${(str || "").toString().replace(/"/g, '""')}"`;
       var scope = scopeJson.find(f => f.scopeId == item.scope);
-      var pointer = scope.pointer.find(f => f.pointerId == item.pointer);
+      var pIx = 0
+      var mIx = 0
 
       csv +=
         [
           index + 1,
+          clean(item.date),
           clean(item.team),
+          clean(item.job),
           clean(item.advisorName),
           clean(item.stage == "1" ? "طفولة مبكرة" : item.stage == "2" ? "ابتدائي" : item.stage == "3" ? "متوسط" : "ثانوي"),
           clean(item.school),
@@ -172,7 +186,10 @@ document.addEventListener("DOMContentLoaded", () => {
             Array.isArray(item.pointer)
               ? item.pointer
                 .map((p) => {
-                  if (p === "add") return item.newPointer;
+                  if (p === "add") {
+                    pIx += 1;
+                    return item.newPointer[pIx - 1]
+                  };
                   const pointerObj = scope.pointer.find((f) => f.pointerId == p);
                   return pointerObj ? pointerObj.label : "";
                 })
@@ -185,7 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
             Array.isArray(item.pointer)
               ? item.method
                 .map((p) => {
-                  if (p === "add") return item.newPointer;
+                  if (p === "add") {
+                    mIx += 1;
+                    return item.newMethod[mIx - 1]
+                  };
                   const methodObj = methodJson.find((f) => f.methodId == p);
                   return methodObj ? methodObj.label : "";
                 })
@@ -194,13 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ? item.newMethod
                 : (methodJson.find((f) => f.methodId == item.method) || {}).label || ""
           ),
-          // clean(
-          //   item.stage == "1" ? "اجتماع" :
-          //     item.stage == "2" ? "حلقة نقاش" :
-          //       item.stage == "3" ? "لقاء" :
-          //         item.stage == "4" ? "ورش عمل" :
-          //           item.stage == "5" ? "مجتمع تعلم مهني" :
-          //             item.method == "6" ? "برنامج" : item.method == "7" ? "تقرير" : `${item.method == "add" ? item.newMethod : ""}`),
+
           clean(item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"),
         ].join(",") + "\n";
     });
