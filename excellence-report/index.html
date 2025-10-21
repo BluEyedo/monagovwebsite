@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>تقرير إنجاز مقدم خدمات دعم التميز المدرسي</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+
+    <link href="style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="icon" href="../favicon.ico" />
+</head>
+
+<body>
+    <style>
+        .cairo-font {
+            font-family: "Cairo", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-variation-settings:
+                "slnt" 0;
+        }
+    </style>
+
+    <div class="flex justify-center cairo-font p-3">
+        <a href="/monawebsite">
+            <button class="flex flex-row border fixed cursor-pointer bg-white p-1 rounded-lg right-5
+            text-blue-600 z-30 hover:bg-gray-100 active:bg-gray-300 duration-150
+            ">
+                <i class="bi bi-house"></i>
+                <p>
+                    الرئيسية
+                </p>
+            </button>
+        </a>
+        <div class="shadow-lg w-full max-w-[95vw] md:w-[75vw] h-full p-4 mt-5 border border-gray-400 rounded-xl">
+            <p class="text-2xl font-bold text-center pt-3 pb-6">
+                تقرير إنجاز مقدم خدمات دعم التميز المدرسي
+            </p>
+            <form class="p-3 pb-10">
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <div class="w-full md:w-1/3 text-right">
+                        <p class="font-bold">الفريق التنفيذي</p>
+                        <input readonly value="بحرة" name="team"
+                            class="border-b border-gray-500 w-full p-2 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right" />
+                    </div>
+
+                    <div class="w-full md:w-1/3 text-right">
+                        <p class="font-bold">اسم المشرفة</p>
+                        <input required name="advisorName"
+                            class="border-b border-gray-500 w-full p-2 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right" />
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-4 mb-8 items-center">
+                    <div class="w-full md:w-1/3 text-right">
+                        <p class="font-bold">المرحلة</p>
+                        <select required name="stage"
+                            class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right">
+                            <option value="" disabled selected>اختر المرحلة</option>
+                            <option value="1">طفولة مبكرة</option>
+                            <option value="2">إبتدائي</option>
+                            <option value="3"> متوسط</option>
+                            <option value="4">ثانوي</option>
+                        </select>
+                    </div>
+
+                    <div class="w-full md:w-1/3 text-right">
+                        <p class="font-bold">المدرسة</p>
+                        <input required name="school"
+                            class="border-b border-gray-500 w-full p-2 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right" />
+                    </div>
+
+                    <div class="w-full md:w-1/4 text-right">
+                        <p class="font-bold mb-5">الفصل الدراسي</p>
+
+                        <div class="flex flex-row gap-12">
+                            <div class="flex flex-row gap-3">
+                                <label>
+                                    <input type="radio" required name="term" value="1" />
+                                    الفصل الأول
+                                </label>
+                            </div>
+                            <div class="flex flex-row gap-3">
+                                <label>
+                                    <input type="radio" required name="term" value="2" />
+                                    الفصل الثاني
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="flex flex-wrap gap-6 mb-8 items-center">
+
+                    <div class="w-full md:w-1/4 text-right">
+                        <p class="font-bold">المجال</p>
+                        <select required name="scope"
+                            class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right">
+                            <option value="" selected>اختيار المجال</option>
+                            <option value="1">التدريس</option>
+                            <option value="2">نواتج التعلم</option>
+                            <option value="3">النشاط المدرسي</option>
+                            <option value="4"> التوجيه الطلابي</option>
+                            <option value="5">التطوير المستمر</option>
+                        </select>
+                    </div>
+                    <i class="bi bi-chevron-left self-center"></i>
+                    <div class="w-full md:w-1/4 text-right opacity-50">
+                        <p class="font-bold">مؤشر الأداء</p>
+
+                        <select disabled required name="pointer"
+                            class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right">
+                            <option value="" selected>اختيار مؤشر</option>
+                        </select>
+                        <div id="pointerContainer">
+                        </div>
+
+                        <div id="extraPointerContainer">
+                        </div>
+
+                        <div id="extraNewPointerContainer">
+                        </div>
+
+                        <button id="extraPointer" type="button"
+                            class="m-2 hidden rounded-lg gap-3 hover:text-blue-600 duration-200 text-blue-400 cursor-pointer">
+                            <p class="">
+                                إضافة مؤشر
+                            </p>
+                            <i id="chevron" class="bi bi-plus-circle self-center"></i>
+                        </button>
+
+                    </div>
+                    <i id="chevron" class="bi bi-chevron-left self-center"></i>
+                    <div class="w-full md:w-1/4 text-right opacity-50">
+                        <p class="font-bold">الإجراءات والأساليب المنفذة</p>
+                        <select disabled required name="method"
+                            class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right">
+                            <option value="" selected>اختيار إجراء</option>
+                            <option value="1">اجتماع</option>
+                            <option value="2">حلقة نقاش</option>
+                            <option value="3">لقاء</option>
+                            <option value="4">ورش عمل</option>
+                            <option value="5">مجتمع تعلم مهني</option>
+                            <option value="6">برنامج</option>
+                            <option value="7">تقرير</option>
+                            <option value="add">أخرى</option>
+                        </select>
+
+                        <div id="methodContainer">
+                        </div>
+
+                        <div id="extraMethodContainer">
+                        </div>
+
+                        <div id="extraNewMethodContainer">
+                        </div>
+
+                        <button id="extraMethod" type="button"
+                            class="m-2 hidden rounded-lg gap-3 hover:text-blue-600 duration-200 text-blue-400 cursor-pointer flex-row">
+                            <p class="">
+                                إضافة مجال
+                            </p>
+                            <i id="chevron" class="bi bi-plus-circle self-center"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/4 text-right mb-5">
+                    <p class="font-bold">حالة الإنجاز</p>
+                    <select required name="category"
+                        class="border-b border-gray-500 w-full p-2 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right bg-transparent">
+                        <option value="" disabled selected>اختر حالة الإنجاز</option>
+                        <option value="1">🟢 تم الإنجاز</option>
+                        <option value="2">🔴 لم يتم الإنجاز</option>
+                    </select>
+                </div>
+
+                <!-- Submit button -->
+                <div class="flex justify-center mb-6">
+                    <button type="submit"
+                        class="h-16 bg-gradient-to-br bg-green-600 text-white rounded-lg px-4 shadow-sm font-bold cursor-pointer duration-300 transition hover:bg-green-500 hover:shadow-lg">
+                        إضافة البيانات
+                    </button>
+                </div>
+            </form>
+
+            <div class="border-b my-8 border-gray-500"></div>
+            <!-- Table iframe -->
+            <div class="overflow-x-auto">
+                <p class="text-2xl font-bold text-center p-3">جدول إنجاز مقدم خدمات دعم التميز المدرسي</p>
+                <iframe src="table.html" class="w-full h-[50vh] md:h-[400px]" style="border:none;"></iframe>
+            </div>
+        </div>
+    </div>
+    <script src="form.js"></script>
+    <script src="scopeJson.js"></script>
+</body>
+
+</html>
