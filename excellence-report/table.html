@@ -53,8 +53,8 @@
             <th class="text-center text-xs border px-4 py-2 w-[100px]">الفصل</th>
             <th class="text-center text-xs border px-4 py-2">الفريق</th>
             <th class="text-center text-xs border px-4 py-2">المشرفة</th>
-            <th class="text-center text-xs border px-4 py-2 w-[95px]">التاريخ</th>
             <th class="text-center text-xs border px-4 py-2 w-[45px]">اليوم</th>
+            <th class="text-center text-xs border px-4 py-2 w-[95px]">التاريخ</th>
             <!-- <th class="text-center text-xs border px-4 py-2 w-[60px]">اللجنة</th> -->
             <!-- <th class="text-center text-xs border px-4 py-2">المرحلة</th> -->
             <th class="text-center text-xs border px-4 py-2">المدرسة</th>
@@ -123,10 +123,10 @@
                 <td class="text-xs border px-4 py-2">
                   ${item.advisorName}
                   </td>
-                <td class="text-xs border px-4 py-2"> ${item.date}</td>
-                <td class="text-xs border px-4 py-2">
+                  <td class="text-xs border px-4 py-2">
                   ${findDay(item.date)}
                   </td>
+                <td class="text-xs border px-4 py-2"> ${item.date}</td>
                 <td class="text-xs border px-4 py-2">${item.school}</td>
                 <td class="text-xs border px-4 py-2">
         ${item.stage == "1" ? "طفولة مبكرة" : ""}

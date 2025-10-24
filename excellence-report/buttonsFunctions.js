@@ -72,14 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 <th class="text-center text-xs border px-4 py-2 w-[100px]">الفصل</th>
                 <th class="text-center text-xs border px-4 py-2">الفريق</th>
                 <th class="text-center text-xs border px-4 py-2">المشرفة</th>
-                <th class="text-center text-xs border px-4 py-2 w-[95px]">التاريخ</th>
                 <th class="text-center text-xs border px-4 py-2 w-[45px]">اليوم</th>
+                <th class="text-center text-xs border px-4 py-2 w-[95px]">التاريخ</th>
                 <th class="text-center text-xs border px-4 py-2">المدرسة</th>
                 <th class="text-center text-xs border px-4 py-2">المرحلة</th>
                 <th class="text-center text-xs border px-4 py-2">المجال</th>
                 <th class="text-center text-xs border px-4 py-2 w-[200px]">مؤشر الأداء</th>
                 <th class="text-center text-xs border px-4 py-2 w-[130px]">الإجراءات</th>
-                <th class="text-center text-xs border px-4 py-2 w-[100px]">حالة الإنجاز</th>
+                <th class="text-center text-xs border px-4 py-2 w-[80px]">حالة الإنجاز</th>
                 <th class="text-center text-xs border px-4 py-2 w-[100px]">الشاهد</th>
                 </tr>
               </thead>
@@ -99,10 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
                   <td class="text-xs border px-4 py-2">
                     ${item.advisorName}
                     </td>
-                  <td class="text-xs border px-4 py-2"> ${item.date}</td>
-                  <td class="text-xs border px-4 py-2">
-                    ${findDay(item.date)}
+                    <td class="text-xs border px-4 py-2">
+                    <!-- ${findDay(item.date)} -->
                     </td>
+                    <td class="text-xs border px-4 py-2"><!-- ${item.date} --></td>
                   <td class="text-xs border px-4 py-2">${item.school}</td>
                   <td class="text-xs border px-4 py-2">
           ${item.stage == "1" ? "طفولة مبكرة" : ""}
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }).join("")}
                   </td>
-                  <td class="text-xs border  px-2">${item.category == "1" ? "🟢 تم الإنجاز" : "🔴 لم يتم الإنجاز"}</td>
+                  <td class="text-xs border  px-2">${item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"}</td>
                   <td class=" border text-xs px-2">
                     ${item.barcodeImage
                 ? `<img src="${item.barcodeImage}" alt="barcode" class="w-16 h-16 mx-auto"/>`
