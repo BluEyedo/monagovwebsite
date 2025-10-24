@@ -2,6 +2,19 @@
 
 
 document.addEventListener("DOMContentLoaded", () => {
+
+
+
+    // تحويل صورة إلى Base64
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
     const form = document.querySelector("form");
     const preview = document.getElementById("preview");
     const iframe = document.querySelector("iframe"); // تحديد iframe
@@ -9,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const scopeSelect = document.querySelector(`select[name="scope"]`);
     const pointerSelect = document.querySelector(`select[name="pointer"]`);
     const methodSelect = document.querySelector(`select[name="method"]`);
+
+
+    var scopeContainer = document.getElementById("scopeContainer");
+    var extraScopeBtn = document.getElementById("extraScope");
+    var extraScopeContainer = document.getElementById("extraScopeContainer")
 
     var pointerContainer = document.getElementById("pointerContainer");
     var extraPointerBtn = document.getElementById("extraPointer");
@@ -19,7 +37,37 @@ document.addEventListener("DOMContentLoaded", () => {
     var extraMethodBtn = document.getElementById("extraMethod");
     var extraMethodContainer = document.getElementById("extraMethodContainer")
 
+    extraScopeBtn.addEventListener("click", () => {
 
+        extraScopeContainer.innerHTML += `
+        <div class="flex gap-3 items-center">
+            <select required name="scope"
+                class="border-b border-gray-500 w-full p-1
+                focus-visible:outline-none focus-visible:border-b-2
+                focus-visible:border-blue-500 text-right">
+                <option value="" selected>اختيار المجال</option>
+                <option value="1">التدريس</option>
+                <option value="2">نواتج التعلم</option>
+                <option value="3">النشاط المدرسي</option>
+                <option value="4"> التوجيه الطلابي</option>
+                <option value="5">التطوير المستمر</option>
+    
+            </select>
+            <button class="closeExtra cursor-pointer" type="button">
+                <i class="bi bi-x-circle text-red-600"></i>
+            </button>
+        </div>
+    `;
+
+        // select all close buttons
+        const closeButtons = document.querySelectorAll(".closeExtra");
+
+        closeButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                btn.parentElement.remove(); // remove only this block
+            });
+        });
+    })
 
 
     scopeSelect.addEventListener("change", () => {
@@ -30,7 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
             pointerSelect.disabled = false;
             pointerSelect.parentElement.classList.remove("opacity-50")
 
-            var pointerData = scopeJson.find(f => f.scopeId == scopeSelect.value).pointer;
+            // var pointerData = scopeJson.find(f => f.scopeId == scopeSelect.value).pointer;
+            var pointerData = pointerJson;
             pointerSelect.innerHTML = `
             <option value="">اختيار مؤشر</option>
             ${pointerData.map((item, ix) => `
@@ -210,7 +259,10 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.stage = elements["stage"].value;
         formData.school = elements["school"].value;
         formData.term = elements["term"].value; // الحقل الثاني job في textarea
-        formData.scope = elements["scope"].value;
+        // formData.scope = elements["scope"].value;
+        formData.scope = Array.from(form.querySelectorAll('select[name="scope"]'))
+            .map(el => el.value)
+            .filter(v => v);
         // formData.pointer = elements["pointer"].value;
         formData.pointer = Array.from(form.querySelectorAll('select[name="pointer"]'))
             .map(el => el.value)
@@ -226,6 +278,13 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.category = elements["category"].value;
         formData.newPointer = elements["newPointer"]?.value ?? "";
         formData.newMethod = elements["newMethod"]?.value ?? "";
+
+        // صورة الباركود
+        if (fileInput.files[0]) {
+            formData.barcodeImage = await getBase64(fileInput.files[0]);
+        } else {
+            formData.barcodeImage = null;
+        }
 
         // جلب البيانات الحالية من localStorage
         const currentData = JSON.parse(localStorage.getItem("excellenceReport") || "[]");

@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             th, td {
               border: 1px solid #000;
-              padding: 8px;
               text-align: right;
             }
             th {
@@ -52,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </head>
         <body class="cairo-font">
         
-          <div class=" p-4">
+          <div class="">
             <div class="flex justify-between mb-6">
               <div class="flex flex-col items-center">
                 <img class="h-[60px] w-auto" src="../ksa.png" />
@@ -69,58 +68,70 @@ document.addEventListener("DOMContentLoaded", () => {
             <table>
               <thead>
                 <tr>
-                  <th class="text-xs text-center">م</th>
-                  <th class="text-center text-xs border px-4 py-2 w-[60px]">التاريخ</th>
-            <th class="text-center text-xs border px-4 py-2 w-[60px]">الفريق التنفيذي</th>
-            <th class="text-center text-xs border px-4 py-2 w-[60px]">اللجنة</th>
-                  <th class="text-xs text-center">اسم المشرفة</th>
-                  <th class="text-xs text-center">المرحلة</th>
-                  <th class="text-xs text-center">المدرسة</th>
-                  <th class="text-xs text-center">الفصل الدراسي</th>
-                  <th class="text-xs text-center">المجال</th>
-                  <th class="text-xs text-center w-[200px]">مؤشر الأداء</th>
-                  <th class="text-xs text-center w-[130px]">الإجراءات والأساليب المنفذة</th>
-                  <th class="border px-4 py-2 w-[80px]">حالة الإنجاز</th>
+                <th class="text-center text-xs border px-4 py-2 w-[10px]">م</th>
+                <th class="text-center text-xs border px-4 py-2 w-[100px]">الفصل</th>
+                <th class="text-center text-xs border px-4 py-2">الفريق</th>
+                <th class="text-center text-xs border px-4 py-2">المشرفة</th>
+                <th class="text-center text-xs border px-4 py-2 w-[95px]">التاريخ</th>
+                <th class="text-center text-xs border px-4 py-2 w-[45px]">اليوم</th>
+                <th class="text-center text-xs border px-4 py-2">المدرسة</th>
+                <th class="text-center text-xs border px-4 py-2">المرحلة</th>
+                <th class="text-center text-xs border px-4 py-2">المجال</th>
+                <th class="text-center text-xs border px-4 py-2 w-[200px]">مؤشر الأداء</th>
+                <th class="text-center text-xs border px-4 py-2 w-[130px]">الإجراءات</th>
+                <th class="text-center text-xs border px-4 py-2 w-[100px]">حالة الإنجاز</th>
+                <th class="text-center text-xs border px-4 py-2 w-[100px]">الشاهد</th>
                 </tr>
               </thead>
               <tbody>
                 ${data
         .map(
           (item, index) => {
-            var scope = scopeJson.find(f => f.scopeId == item.scope);
-            var pointer = scope.pointer.find(f => f.pointerId == item.pointer);
+
             var pIx = 0
             var mIx = 0
 
             return `
                   <tr>
-                  <td class="text-xs">${index + 1}</td>
-                  <td class="text-xs border px-4 py-2">${findDay(item.date)} ${item.date}</td>
+                  <td class="text-xs border px-4 py-2">${index + 1}</td>
+                  <td class="text-xs border px-4 py-2">${item.term == "1" ? "الفصل الأول" : "الفصل الثاني"}</td>
                   <td class="text-xs border px-4 py-2">${item.team}</td>
-                  <td class="text-xs border px-4 py-2">${item.job}</td>
-                  <td class="text-xs">${item.advisorName}</td>
-                  <td class="text-xs">
-                    ${item.stage == "1" ? "طفولة مبكرة" : ""}
-                    ${item.stage == "2" ? "ابتدائي" : ""}
-                    ${item.stage == "3" ? "متوسط" : ""}
-                    ${item.stage == "4" ? "ثانوي" : ""}
+                  <td class="text-xs border px-4 py-2">
+                    ${item.advisorName}
                     </td>
-                  <td class="text-xs">${item.school}</td>
-                  <td class="text-xs text-center">${item.term == "1" ? "الفصل الأول" : "الفصل الثاني"}</td>
-                  <td class="text-xs text-center">${scope?.label}</td>
+                  <td class="text-xs border px-4 py-2"> ${item.date}</td>
+                  <td class="text-xs border px-4 py-2">
+                    ${findDay(item.date)}
+                    </td>
+                  <td class="text-xs border px-4 py-2">${item.school}</td>
+                  <td class="text-xs border px-4 py-2">
+          ${item.stage == "1" ? "طفولة مبكرة" : ""}
+          ${item.stage == "2" ? "ابتدائي" : ""}
+          ${item.stage == "3" ? "متوسط" : ""}
+          ${item.stage == "4" ? "ثانوي" : ""}
+                    </td>
+                  <td class="text-xs border px-4 py-2 text-center">
+                    ${item.scope.map((s, i) => {
+
+              var scope = scopeJson.find(f => f.scopeId == s);
+              return `<p>${i + 1}. ${scope.label}</p>`;
+
+            }).join("")}
+                    </td>
                   <td class="text-xs border px-4 py-2 text-start">
-                  ${item.pointer.map((p, i) => {
+                    ${item.pointer.map((p, i) => {
               if (p == "add") {
                 pIx += 1;
                 return `<p>${i + 1}. ${item.newPointer[pIx - 1]}</p>`;
               } else {
-                var pointer = scope.pointer.find(f => f.pointerId == p);
+                // var pointer = scope.pointer.find(f => f.pointerId == p);
+                var pointer = pointerJson.find(f => f.pointerId == p);
                 return `<p>${i + 1}. ${pointer.label}</p>`;
               }
             }).join("")}
-                </td>
-                <td class="text-xs border px-4 py-2 text-start">
-                  ${item.method.map((m, i) => {
+                  </td>
+                  <td class="text-xs border px-4 py-2 text-start">
+                    ${item.method.map((m, i) => {
 
               if (m == "add") {
                 mIx += 1;
@@ -130,9 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 return `<p>${i + 1}. ${method.label}</p>`;
               }
             }).join("")}
-                </td>
-          </td>
-                    <td class="">${item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"}</td>
+                  </td>
+                  <td class="text-xs border  px-2">${item.category == "1" ? "🟢 تم الإنجاز" : "🔴 لم يتم الإنجاز"}</td>
+                  <td class=" border text-xs px-2">
+                    ${item.barcodeImage
+                ? `<img src="${item.barcodeImage}" alt="barcode" class="w-16 h-16 mx-auto"/>`
+                : ""
+              }
+                    </td>
+                    
                   </tr >
       `}
         )

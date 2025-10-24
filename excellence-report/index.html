@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="upload.css">
 </head>
 
 <body>
@@ -125,6 +126,23 @@
                             <option value="4"> التوجيه الطلابي</option>
                             <option value="5">التطوير المستمر</option>
                         </select>
+
+                        <div id="scopeContainer">
+                        </div>
+
+                        <div id="extraScopeContainer">
+                        </div>
+
+                        <div id="extraNewScopeContainer">
+                        </div>
+
+                        <button id="extraScope" type="button"
+                            class="m-2 rounded-lg gap-3 hover:text-blue-600 duration-200 text-blue-400 cursor-pointer flex flex-row">
+                            <p class="">
+                                إضافة مجال
+                            </p>
+                            <i id="chevron" class="bi bi-plus-circle self-center"></i>
+                        </button>
                     </div>
                     <i class="bi bi-chevron-left self-center"></i>
                     <div class="w-full md:w-1/4 text-right opacity-50">
@@ -180,81 +198,12 @@
                         <button id="extraMethod" type="button"
                             class="m-2 hidden rounded-lg gap-3 hover:text-blue-600 duration-200 text-blue-400 cursor-pointer flex-row">
                             <p class="">
-                                إضافة مجال
+                                إضافة إجراء
                             </p>
                             <i id="chevron" class="bi bi-plus-circle self-center"></i>
                         </button>
                     </div>
                 </div>
-
-                <!-- <div id="dynamic-selects-container">
-                    <div class="select-row flex flex-wrap gap-6 mb-8 items-center">
-                        <div class="w-full md:w-1/4 text-right">
-                            <p class="font-bold">المجال</p>
-                            <select required name="scope[]"
-                                class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right scope-select">
-                                <option value="" selected>اختيار المجال</option>
-                                <option value="1">التدريس</option>
-                                <option value="2">نواتج التعلم</option>
-                                <option value="3">النشاط المدرسي</option>
-                                <option value="4">التوجيه الطلابي</option>
-                                <option value="5">التطوير المستمر</option>
-                            </select>
-                        </div>
-                        <i class="bi bi-chevron-left self-center"></i>
-                        <div class="w-full md:w-1/4 text-right opacity-50 relative">
-
-                            <p class="font-bold">مؤشر الأداء</p>
-                            <select disabled required name="pointer[]"
-                                class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right pointer-select">
-                                <option value="" selected>اختيار مؤشر</option>
-                            </select>
-
-                            <div class="custom-pointer-input-group hidden flex items-center mt-2">
-                                <input type="text" name="custom_pointer_text[]"
-                                    class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right custom-pointer-text"
-                                    placeholder="أدخل مؤشر آخر" disabled>
-                                <button type="button"
-                                    class="close-custom-input-btn pointer-close-btn cursor-pointer text-red-600">
-                                    <i class="bi bi-x-circle"></i></button>
-                            </div>
-                        </div>
-                        <i class="bi bi-chevron-left self-center"></i>
-                        <div class="w-full md:w-1/4 text-right opacity-50 relative">
-
-                            <p class="font-bold">الإجراءات والأساليب المنفذة</p>
-                            <select disabled required name="method[]"
-                                class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right method-select">
-                                <option value="" selected>اختيار إجراء</option>
-                                <option value="1">اجتماع</option>
-                                <option value="2">حلقة نقاش</option>
-                                <option value="3">لقاء</option>
-                                <option value="4">ورش عمل</option>
-                                <option value="5">مجتمع تعلم مهني</option>
-                                <option value="6">برنامج</option>
-                                <option value="7">تقرير</option>
-                                <option value="add">أخرى</option>
-                            </select>
-
-                            <div class="custom-method-input-group hidden flex items-center mt-2">
-                                <input type="text" name="custom_method_text[]"
-                                    class="border-b border-gray-500 w-full p-1 focus-visible:outline-none focus-visible:border-b-2 focus-visible:border-blue-500 text-right custom-method-text"
-                                    placeholder="أدخل إجراء آخر" disabled>
-                                <button type="button"
-                                    class="close-custom-input-btn method-close-btn cursor-pointer text-red-600">
-                                    <i class="bi bi-x-circle"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" id="add-new-row-btn"
-                    class="border border-blue-500 hover:border-blue-700 text-blue-600 font-bold py-2 px-4 rounded mt-4 mb-12 cursor-pointer hidden">
-                    اضف سطر جديد
-                    <i class="bi bi-plus-lg"></i>
-                </button> -->
-
-
 
                 <div class="w-full md:w-1/4 text-right mb-5">
                     <p class="font-bold">حالة الإنجاز</p>
@@ -264,6 +213,15 @@
                         <option value="1">🟢 تم الإنجاز</option>
                         <option value="2">🔴 لم يتم الإنجاز</option>
                     </select>
+                </div>
+
+                <!-- Upload box -->
+                <div class="flex justify-start mb-6">
+                    <div class="upload-box w-full md:w-1/3" id="dropzone">
+                        <input type="file" id="fileInput" accept="image/*">
+                        <p>ارفق صورة الباركود بالضغط هنا او سحب الصورة إلى هنا</p>
+                        <img id="preview" alt="" class="hidden" />
+                    </div>
                 </div>
 
                 <!-- Submit button -->
@@ -283,6 +241,7 @@
             </div>
         </div>
     </div>
+    <script src="uploadfile.js"></script>
     <script src="form.js"></script>
     <script src="scopeJson.js"></script>
 </body>
