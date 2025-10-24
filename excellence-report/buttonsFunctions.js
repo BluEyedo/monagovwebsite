@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     let csv =
-      `م,التاريخ,الفريق التنفيذي,اللجنة,اسم المشرفة,المرحلة,المدرسة,الفصل الدراسي,المجال,مؤشر الأداء,الإجراءات والأساليب المنفذة،حالة الإنجاز\n`;
+      `م,الفصل,الفريق,المشرفة,التاريخ,اليوم,المدرسة,المرحلة,المجال,مؤشر الأداء,الإجراءات,حالة الإنجاز,الشاهد\n`;
 
 
     data.forEach((item, index) => {
@@ -188,52 +188,46 @@ document.addEventListener("DOMContentLoaded", () => {
       var pIx = 0
       var mIx = 0
 
-      csv +=
-        [
-          index + 1,
-          clean(item.date),
-          clean(item.team),
-          clean(item.job),
-          clean(item.advisorName),
-          clean(item.stage == "1" ? "طفولة مبكرة" : item.stage == "2" ? "ابتدائي" : item.stage == "3" ? "متوسط" : "ثانوي"),
-          clean(item.school),
-          clean(item.term == "1" ? "الفصل الأول" : "الفصل الثاني"),
-          clean(scope?.label),
-          clean(
-            Array.isArray(item.pointer)
-              ? item.pointer
-                .map((p) => {
-                  if (p === "add") {
-                    pIx += 1;
-                    return item.newPointer[pIx - 1]
-                  };
-                  const pointerObj = scope.pointer.find((f) => f.pointerId == p);
-                  return pointerObj ? pointerObj.label : "";
-                })
-                .join(" / ") // use slash or comma between them
-              : item.pointer === "add"
-                ? item.newPointer
-                : (scope.pointer.find((f) => f.pointerId == item.pointer) || {}).label || ""
-          ),
-          clean(
-            Array.isArray(item.pointer)
-              ? item.method
-                .map((p) => {
-                  if (p === "add") {
-                    mIx += 1;
-                    return item.newMethod[mIx - 1]
-                  };
-                  const methodObj = methodJson.find((f) => f.methodId == p);
-                  return methodObj ? methodObj.label : "";
-                })
-                .join(" / ") // use slash or comma between them
-              : item.method === "add"
-                ? item.newMethod
-                : (methodJson.find((f) => f.methodId == item.method) || {}).label || ""
-          ),
-
-          clean(item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"),
-        ].join(",") + "\n";
+      csv += [
+        index + 1, // م
+        item.term == "1" ? "الفصل الأول" : "الفصل الثاني", // الفصل
+        item.team, // الفريق
+        item.advisorName, // المشرفة
+        item.date, // التاريخ
+        findDay(item.date), // اليوم
+        item.school, // المدرسة
+        item.stage == "1" ? "طفولة مبكرة" : item.stage == "2" ? "ابتدائي" : item.stage == "3" ? "متوسط" : "ثانوي", // المرحلة
+        item.scope
+          .map(s => {
+            const scope = scopeJson.find(f => f.scopeId == s);
+            return scope ? scope.label : "";
+          })
+          .join(" / "), // المجال
+        item.pointer
+          .map(p => {
+            if (p === "add") {
+              pIx += 1;
+              return item.newPointer[pIx - 1];
+            } else {
+              const pointer = pointerJson.find(f => f.pointerId == p);
+              return pointer ? pointer.label : "";
+            }
+          })
+          .join(" / "), // مؤشر الأداء
+        item.method
+          .map(m => {
+            if (m === "add") {
+              mIx += 1;
+              return item.newMethod[mIx - 1];
+            } else {
+              const method = methodJson.find(f => f.methodId == m);
+              return method ? method.label : "";
+            }
+          })
+          .join(" / "), // الإجراءات
+        item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز", // حالة الإنجاز
+        // item.barcodeImage || "" // الشاهد
+      ].join(",") + "\n";
     });
 
     // إضافة BOM في بداية CSV لحل مشكلة العربية
