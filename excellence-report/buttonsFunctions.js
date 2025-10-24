@@ -100,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${item.advisorName}
                     </td>
                     <td class="text-xs border px-4 py-2">
-                    <!-- ${findDay(item.date)} -->
+                    ${item.day} 
                     </td>
-                    <td class="text-xs border px-4 py-2"><!-- ${item.date} --></td>
+                    <td class="text-xs border px-4 py-2">${item.date}</td>
                   <td class="text-xs border px-4 py-2">${item.school}</td>
                   <td class="text-xs border px-4 py-2">
           ${item.stage == "1" ? "طفولة مبكرة" : ""}
@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     let csv =
-      `م,الفصل,الفريق,المشرفة,التاريخ,اليوم,المدرسة,المرحلة,المجال,مؤشر الأداء,الإجراءات,حالة الإنجاز,الشاهد\n`;
+      `م,الفصل,الفريق,المشرفة,اليوم,التاريخ,المدرسة,المرحلة,المجال,مؤشر الأداء,الإجراءات,حالة الإنجاز,الشاهد\n`;
 
 
     data.forEach((item, index) => {
@@ -193,8 +193,8 @@ document.addEventListener("DOMContentLoaded", () => {
         item.term == "1" ? "الفصل الأول" : "الفصل الثاني", // الفصل
         item.team, // الفريق
         item.advisorName, // المشرفة
+        item.day, // اليوم
         item.date, // التاريخ
-        findDay(item.date), // اليوم
         item.school, // المدرسة
         item.stage == "1" ? "طفولة مبكرة" : item.stage == "2" ? "ابتدائي" : item.stage == "3" ? "متوسط" : "ثانوي", // المرحلة
         item.scope

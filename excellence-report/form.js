@@ -252,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const elements = form.elements;
 
         // جمع البيانات
+        formData.day = elements["day"].value;
         formData.date = elements["date"].value;
         formData.advisorName = elements["advisorName"].value;
         formData.team = elements["team"].value;
