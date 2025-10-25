@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(el => el.value)
             .filter(v => v);
 
-        formData.job = elements["job"].value;
+        // formData.job = elements["job"].value;
         formData.category = elements["category"].value;
         formData.newPointer = elements["newPointer"]?.value ?? "";
         formData.newMethod = elements["newMethod"]?.value ?? "";
