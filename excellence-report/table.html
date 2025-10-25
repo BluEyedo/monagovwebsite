@@ -96,48 +96,14 @@
     <script src="buttonsFunctions.js"></script>
     <script src="scopeJson.js"></script>
     <script>
-      // Sample data structure for demonstration
-      const sampleData = [
-        {
-          term: "1",
-          team: "الفريق الأول",
-          advisorName: "سارة أحمد",
-          day: "الأحد",
-          date: "2025/01/15",
-          school: "مدرسة النور",
-          stage: "2",
-          category: "1",
-          barcodeImage: "",
-          scope: ["scope1", "scope2"],
-          pointer: ["pointer1", "pointer2", "add"],
-          newPointer: ["مؤشر جديد"],
-          method: ["method1", "add"],
-          newMethod: ["إجراء جديد"],
-        },
-        {
-          term: "1",
-          team: "الفريق الثاني",
-          advisorName: "فاطمة محمد",
-          day: "الاثنين",
-          date: "2025/01/16",
-          school: "مدرسة الأمل",
-          stage: "3",
-          category: "2",
-          barcodeImage: "",
-          scope: ["scope3"],
-          pointer: ["pointer3"],
-          method: ["method2"],
-          newMethod: [],
-        },
-      ];
-
+     
       function loadTable() {
         const tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = "";
 
         // Use localStorage data if available, otherwise use sample data
         const storedData = localStorage.getItem("excellenceReport");
-        const data = storedData ? JSON.parse(storedData) : sampleData;
+        const data = JSON.parse(storedData);
         console.log(data);
 
         data.forEach((item, index) => {

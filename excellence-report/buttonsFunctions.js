@@ -299,8 +299,10 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("excellenceReport");
       alert("تم حذف جميع البيانات!");
       // إعادة تحميل iframe إذا موجود
-      const iframe = document.querySelector("iframe");
-      if (iframe) iframe.src = iframe.src;
+      // const iframe = document.querySelector("iframe");
+      // if (iframe) iframe.src = iframe.src;
+
+      window.URL.reload();
 
       // حساب المهام المكتملة وغير المكتملة
       const done = data.filter((item) => item.category == "1").length;
