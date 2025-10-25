@@ -37,6 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
     var extraMethodBtn = document.getElementById("extraMethod");
     var extraMethodContainer = document.getElementById("extraMethodContainer")
 
+
+    var pointerData = pointerJson;
+            pointerSelect.innerHTML = `
+            <option value="">اختيار مؤشر</option>
+            ${pointerData.map((item, ix) => `
+            <option value="${item.pointerId}">${item.label}</option>
+            `)}
+            <option value="add">أخرى</option>
+            `
+
     extraScopeBtn.addEventListener("click", () => {
 
         extraScopeContainer.innerHTML += `
@@ -75,24 +85,24 @@ document.addEventListener("DOMContentLoaded", () => {
         extraPointerContainer.innerHTML = ""
 
         if (scopeSelect.value != "") {
-            pointerSelect.disabled = false;
-            pointerSelect.parentElement.classList.remove("opacity-50")
+            // pointerSelect.disabled = false;
+            // pointerSelect.parentElement.classList.remove("opacity-50")
 
             // var pointerData = scopeJson.find(f => f.scopeId == scopeSelect.value).pointer;
-            var pointerData = pointerJson;
-            pointerSelect.innerHTML = `
-            <option value="">اختيار مؤشر</option>
-            ${pointerData.map((item, ix) => `
-            <option value="${item.pointerId}">${item.label}</option>
-            `)}
-            <option value="add">أخرى</option>
-            `
+            // var pointerData = pointerJson;
+            // pointerSelect.innerHTML = `
+            // <option value="">اختيار مؤشر</option>
+            // ${pointerData.map((item, ix) => `
+            // <option value="${item.pointerId}">${item.label}</option>
+            // `)}
+            // <option value="add">أخرى</option>
+            // `
 
             extraPointerBtn.classList.remove("hidden")
             extraPointerBtn.classList.add("flex")
         } else {
-            pointerSelect.disabled = true;
-            pointerSelect.parentElement.classList.add("opacity-50")
+            // pointerSelect.disabled = true;f
+            // pointerSelect.parentElement.classList.add("opacity-50")
             extraPointerBtn.classList.add("hidden")
             extraPointerBtn.classList.remove("flex")
         }
@@ -132,14 +142,14 @@ document.addEventListener("DOMContentLoaded", () => {
     pointerSelect.addEventListener("change", () => {
         methodSelect.value = "";
         if (pointerSelect.value != "") {
-            methodSelect.disabled = false;
-            methodSelect.parentElement.classList.remove("opacity-50")
+            // methodSelect.disabled = false;
+            // methodSelect.parentElement.classList.remove("opacity-50")
 
             extraMethodBtn.classList.remove("hidden")
             extraMethodBtn.classList.add("flex")
         } else {
-            methodSelect.disabled = true;
-            methodSelect.parentElement.classList.add("opacity-50")
+            // methodSelect.disabled = true;
+            // methodSelect.parentElement.classList.add("opacity-50")
             extraMethodBtn.classList.add("hidden")
             extraMethodBtn.classList.remove("flex")
         }
