@@ -76,66 +76,64 @@ document.addEventListener("DOMContentLoaded", () => {
                 <th class="text-center text-xs border px-4 py-2">المدرسة</th>
                 <th class="text-center text-xs border px-4 py-2">المرحلة</th>
                 <th class="text-center text-xs border px-4 py-2 w-[80px]">حالة الإنجاز</th>
+                <th class="text-center text-xs border px-4 py-2">الشاهد</th>
                 </tr>
               </thead>
               <tbody>
                 ${data
-                  .map((item, index) => {
-                    let pIx = 0;
-                    let mIx = 0;
+        .map((item, index) => {
+          let pIx = 0;
+          let mIx = 0;
 
-                    const scopeList =
-                      item.scope
-                        ?.map((s, i) => {
-                          const scope = scopeJson.find((f) => f.scopeId == s);
-                          return scope
-                            ? `<p class="mb-1">${i + 1}. ${scope.label}</p>`
-                            : "";
-                        })
-                        .join("") || "";
+          const scopeList =
+            item.scope
+              ?.map((s, i) => {
+                const scope = scopeJson.find((f) => f.scopeId == s);
+                return scope
+                  ? `<p class="mb-1">${i + 1}. ${scope.label}</p>`
+                  : "";
+              })
+              .join("") || "";
 
-                    const pointerList =
-                      item.pointer
-                        ?.map((p, i) => {
-                          if (p == "add") {
-                            pIx += 1;
-                            return `<p class="mb-1">${i + 1}. ${
-                              item.newPointer?.[pIx - 1] || ""
-                            }</p>`;
-                          } else {
-                            const pointer = pointerJson.find(
-                              (f) => f.pointerId == p
-                            );
-                            return pointer
-                              ? `<p class="mb-1">${i + 1}. ${pointer.label}</p>`
-                              : "";
-                          }
-                        })
-                        .join("") || "";
+          const pointerList =
+            item.pointer
+              ?.map((p, i) => {
+                if (p == "add") {
+                  pIx += 1;
+                  return `<p class="mb-1">${i + 1}. ${item.newPointer?.[pIx - 1] || ""
+                    }</p>`;
+                } else {
+                  const pointer = pointerJson.find(
+                    (f) => f.pointerId == p
+                  );
+                  return pointer
+                    ? `<p class="mb-1">${i + 1}. ${pointer.label}</p>`
+                    : "";
+                }
+              })
+              .join("") || "";
 
-                    const methodList =
-                      item.method
-                        ?.map((m, i) => {
-                          if (m == "add") {
-                            mIx += 1;
-                            return `<p class="mb-1">${i + 1}. ${
-                              item.newMethod?.[mIx - 1] || ""
-                            }</p>`;
-                          } else {
-                            const method = methodJson.find(
-                              (f) => f.methodId == m
-                            );
-                            return method
-                              ? `<p class="mb-1">${i + 1}. ${method.label}</p>`
-                              : "";
-                          }
-                        })
-                        .join("") || "";
+          const methodList =
+            item.method
+              ?.map((m, i) => {
+                if (m == "add") {
+                  mIx += 1;
+                  return `<p class="mb-1">${i + 1}. ${item.newMethod?.[mIx - 1] || ""
+                    }</p>`;
+                } else {
+                  const method = methodJson.find(
+                    (f) => f.methodId == m
+                  );
+                  return method
+                    ? `<p class="mb-1">${i + 1}. ${method.label}</p>`
+                    : "";
+                }
+              })
+              .join("") || "";
 
-                    return `
-                  ${
-                    index > 0
-                      ? `
+          return `
+                  ${index > 0
+              ? `
                   <tr>
               <th class="text-center text-xs border px-4 py-2 w-[10px]">م</th>
               <th class="text-center text-xs border px-4 py-2 w-[100px]">الفصل</th>
@@ -146,15 +144,15 @@ document.addEventListener("DOMContentLoaded", () => {
               <th class="text-center text-xs border px-4 py-2">المدرسة</th>
               <th class="text-center text-xs border px-4 py-2">المرحلة</th>
               <th class="text-center text-xs border px-4 py-2 w-[80px]">حالة الإنجاز</th>
+              <th class="text-center text-xs border px-4 py-2">الشاهد</th>
               </tr>
                   `
-                      : ``
-                  }
+              : ``
+            }
                   <tr class="border-0">
                   <td class="text-xs border px-4 py-2">${index + 1}</td>
-                  <td class="text-xs border px-4 py-2">${
-                    item.term == "1" ? "الفصل الأول" : "الفصل الثاني"
-                  }</td>
+                  <td class="text-xs border px-4 py-2">${item.term == "1" ? "الفصل الأول" : "الفصل الثاني"
+            }</td>
                   <td class="text-xs border px-4 py-2">${item.team}</td>
                   <td class="text-xs border px-4 py-2">
                     ${item.advisorName}
@@ -170,10 +168,14 @@ document.addEventListener("DOMContentLoaded", () => {
           ${item.stage == "3" ? "متوسط" : ""}
           ${item.stage == "4" ? "ثانوي" : ""}
                     </td>
-                <td class="text-xs border  px-2">${
-                  item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"
-                }</td>
-                    
+                <td class="text-xs border  px-2">${item.category == "1" ? "تم الإنجاز" : "لم يتم الإنجاز"
+            }</td>
+                <td class="text-xs border text-xs px-2">
+                ${item.barcodeImage
+              ? `<img src="${item.barcodeImage}" alt="barcode" class="w-16 h-16 mx-auto"/>`
+              : ""
+            }
+              </td>
                   </tr >
 
                   <tr>
@@ -199,8 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                   </tr>
       `;
-                  })
-                  .join("")}
+        })
+        .join("")}
               </tbody>
             </table>
           </div>
@@ -244,10 +246,10 @@ document.addEventListener("DOMContentLoaded", () => {
           item.stage == "1"
             ? "طفولة مبكرة"
             : item.stage == "2"
-            ? "ابتدائي"
-            : item.stage == "3"
-            ? "متوسط"
-            : "ثانوي", // المرحلة
+              ? "ابتدائي"
+              : item.stage == "3"
+                ? "متوسط"
+                : "ثانوي", // المرحلة
           item.scope
             .map((s) => {
               const scope = scopeJson.find((f) => f.scopeId == s);
