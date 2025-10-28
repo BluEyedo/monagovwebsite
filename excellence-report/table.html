@@ -1,131 +1,112 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>جدول إنجاز الموظفات</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    />
-    <style>
-      body {
-        font-family: "Cairo", sans-serif;
-      }
-    </style>
-  </head>
 
-  <body class="">
-    <div class="p-3">
-      <!-- Top row: buttons + counts -->
-      <div
-        class="flex flex-col md:flex-row justify-between gap-4 md:gap-0 mb-4"
-      >
-        <!-- Buttons -->
-        <div class="flex flex-wrap gap-3 md:gap-6 flex-1">
-          <button
-            id="printBtn"
-            type="button"
-            class="h-12 bg-gradient-to-br bg-blue-500 text-white rounded-lg px-3 shadow-sm font-bold transition cursor-pointer duration-300 hover:bg-blue-400 hover:shadow-lg flex items-center gap-2"
-          >
-            طباعة الجدول
-            <i class="bi bi-printer"></i>
-          </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جدول إنجاز الموظفات</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+  <style>
+    body {
+      font-family: "Cairo", sans-serif;
+    }
+  </style>
+</head>
 
-          <button
-            id="excelBtn"
-            type="button"
-            class="h-12 bg-gradient-to-br bg-cyan-500 text-white rounded-lg px-3 shadow-sm font-bold transition cursor-pointer duration-300 hover:bg-cyan-400 hover:shadow-lg flex items-center gap-2"
-          >
-            تصدير الجدول إلى EXCEL
-            <i class="bi bi-file-earmark-spreadsheet"></i>
-          </button>
+<body class="">
+  <div class="p-3">
+    <!-- Top row: buttons + counts -->
+    <div class="flex flex-col md:flex-row justify-between gap-4 md:gap-0 mb-4">
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-3 md:gap-6 flex-1">
+        <button id="printBtn" type="button"
+          class="h-12 bg-gradient-to-br bg-blue-500 text-white rounded-lg px-3 shadow-sm font-bold transition cursor-pointer duration-300 hover:bg-blue-400 hover:shadow-lg flex items-center gap-2">
+          طباعة الجدول
+          <i class="bi bi-printer"></i>
+        </button>
 
-          <button
-            id="deleteBtn"
-            type="button"
-            class="h-12 bg-gradient-to-br bg-red-500 text-white rounded-lg px-3 shadow-sm font-bold transition cursor-pointer duration-300 hover:bg-red-400 hover:shadow-lg flex items-center gap-2"
-          >
-            حذف كامل البيانات
-            <i class="bi bi-trash3"></i>
-          </button>
-        </div>
-      </div>
+        <button id="excelBtn" type="button"
+          class="h-12 bg-gradient-to-br bg-cyan-500 text-white rounded-lg px-3 shadow-sm font-bold transition cursor-pointer duration-300 hover:bg-cyan-400 hover:shadow-lg flex items-center gap-2">
+          تصدير الجدول إلى EXCEL
+          <i class="bi bi-file-earmark-spreadsheet"></i>
+        </button>
 
-      <!-- Table -->
-      <div class="overflow-x-auto rounded shadow">
-        <table
-          id="employeeTable"
-          class="min-w-full border border-gray-300 text-right"
-        >
-          <thead class="bg-gray-100">
-            <tr>
-              <th class="text-center text-xs border px-4 py-2">م</th>
-              <th class="text-center text-xs border px-4 py-2 w-[100px]">
-                الفصل
-              </th>
-              <th class="text-center text-xs border px-4 py-2">الفريق</th>
-              <th class="text-center text-xs border px-4 py-2">المشرفة</th>
-              <th class="text-center text-xs border px-4 py-2 w-[45px]">
-                اليوم
-              </th>
-              <th class="text-center text-xs border px-4 py-2 w-[95px]">
-                التاريخ
-              </th>
-              <th class="text-center text-xs border px-4 py-2">المدرسة</th>
-              <th class="text-center text-xs border px-4 py-2">المرحلة</th>
-              <th class="text-center text-xs border px-4 py-2">حالة الإنجاز</th>
-              <th class="text-center text-xs border px-4 py-2 w-[100px]">
-                الشاهد
-              </th>
-              <th class="text-center text-xs border px-4 py-2"></th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <!-- البيانات سيتم إضافتها هنا -->
-          </tbody>
-        </table>
+        <button id="deleteBtn" type="button"
+          class="h-12 bg-gradient-to-br bg-red-500 text-white rounded-lg px-3 shadow-sm font-bold transition cursor-pointer duration-300 hover:bg-red-400 hover:shadow-lg flex items-center gap-2">
+          حذف كامل البيانات
+          <i class="bi bi-trash3"></i>
+        </button>
       </div>
     </div>
-    <script src="../utils/findDay.js"></script>
-    <script src="buttonsFunctions.js"></script>
-    <script src="scopeJson.js"></script>
-    <script>
-     
-      function loadTable() {
-        const tableBody = document.getElementById("tableBody");
-        tableBody.innerHTML = "";
 
-        // Use localStorage data if available, otherwise use sample data
-        const storedData = localStorage.getItem("excellenceReport");
-        const data = JSON.parse(storedData);
-        console.log(data);
+    <!-- Table -->
+    <div class="overflow-x-auto rounded shadow">
+      <table id="employeeTable" class="min-w-full border border-gray-300 text-right">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="text-center text-xs border px-4 py-2">م</th>
+            <th class="text-center text-xs border px-4 py-2 w-[100px]">
+              الفصل
+            </th>
+            <th class="text-center text-xs border px-4 py-2">الفريق</th>
+            <th class="text-center text-xs border px-4 py-2">المشرفة</th>
+            <th class="text-center text-xs border px-4 py-2 w-[45px]">
+              اليوم
+            </th>
+            <th class="text-center text-xs border px-4 py-2 w-[95px]">
+              التاريخ
+            </th>
+            <th class="text-center text-xs border px-4 py-2">المدرسة</th>
+            <th class="text-center text-xs border px-4 py-2">المرحلة</th>
+            <th class="text-center text-xs border px-4 py-2">حالة الإنجاز</th>
+            <th class="text-center text-xs border px-4 py-2 w-[100px]">
+              الشاهد
+            </th>
+            <th class="text-center text-xs border px-4 py-2"></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- البيانات سيتم إضافتها هنا -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="../utils/findDay.js"></script>
+  <script src="buttonsFunctions.js"></script>
+  <script src="scopeJson.js"></script>
+  <script>
 
-        data.forEach((item, index) => {
-          // Main row
-          const row = document.createElement("tr");
-          row.className = "hover:bg-gray-50";
+    function loadTable() {
+      const tableBody = document.getElementById("tableBody");
+      tableBody.innerHTML = "";
 
-          const stageText =
-            item.stage == "1"
-              ? "طفولة مبكرة"
-              : item.stage == "2"
+      // Use localStorage data if available, otherwise use sample data
+      const storedData = localStorage.getItem("excellenceReport");
+      const data = JSON.parse(storedData);
+      console.log(data);
+
+      data.forEach((item, index) => {
+        // Main row
+        const row = document.createElement("tr");
+        row.className = "hover:bg-gray-50";
+
+        const stageText =
+          item.stage == "1"
+            ? "طفولة مبكرة"
+            : item.stage == "2"
               ? "ابتدائي"
               : item.stage == "3"
-              ? "متوسط"
-              : item.stage == "4"
-              ? "ثانوي"
-              : "";
+                ? "متوسط"
+                : item.stage == "4"
+                  ? "ثانوي"
+                  : "";
 
-          if (index > 0) {
-            const nestedRowHeader = document.createElement("tr");
-            nestedRowHeader.classList.add("bg-gray-100");
-            nestedRowHeader.innerHTML = `<th class="text-center text-xs border px-4 py-2">م</th>
+        if (index > 0) {
+          const nestedRowHeader = document.createElement("tr");
+          nestedRowHeader.classList.add("bg-gray-100");
+          nestedRowHeader.innerHTML = `<th class="text-center text-xs border px-4 py-2">م</th>
               <th class="text-center text-xs border px-4 py-2 w-[100px]">
                 الفصل
               </th>
@@ -145,13 +126,12 @@
               </th>
               <th class="text-center text-xs border px-4 py-2"></th>`;
 
-              tableBody.appendChild(nestedRowHeader);
-          }
+          tableBody.appendChild(nestedRowHeader);
+        }
 
-          row.innerHTML = `
+        row.innerHTML = `
           <td class="text-xs border px-4 py-2">${index + 1}</td>
-          <td class="text-xs border px-4 py-2">${
-            item.term == "1" ? "الفصل الأول" : "الفصل الثاني"
+          <td class="text-xs border px-4 py-2">${item.term == "1" ? "الفصل الأول" : "الفصل الثاني"
           }</td>
           <td class="text-xs border px-4 py-2">${item.team}</td>
           <td class="text-xs border px-4 py-2">${item.advisorName}</td>
@@ -159,15 +139,13 @@
           <td class="text-xs border px-4 py-2">${item.date}</td>
           <td class="text-xs border px-4 py-2">${item.school}</td>
           <td class="text-xs border px-4 py-2">${stageText}</td>
-          <td class="text-xs border text-xs px-2">${
-            item.category == "1" ? "🟢 تم الإنجاز" : "🔴 لم يتم الإنجاز"
+          <td class="text-xs border text-xs px-2">${item.category == "1" ? "🟢 تم الإنجاز" : "🔴 لم يتم الإنجاز"
           }</td>
           <td class="text-xs border text-xs px-2">
-            ${
-              item.barcodeImage
-                ? `<img src="${item.barcodeImage}" alt="barcode" class="w-16 h-16 mx-auto"/>`
-                : ""
-            }
+            ${item.barcodeImage
+            ? `<img src="${item.barcodeImage}" alt="barcode" class="w-16 h-16 mx-auto"/>`
+            : ""
+          }
           </td>
           <td class="text-xs border px-4 py-2 text-center">
             <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded delete-btn">
@@ -177,68 +155,66 @@
           </td>
         `;
 
-          row.querySelector(".delete-btn").addEventListener("click", () => {
-            if (confirm("هل أنت متأكد من حذف هذا السجل؟")) {
-              data.splice(index, 1);
-              localStorage.setItem("excellenceReport", JSON.stringify(data));
-              loadTable();
-            }
-          });
+        row.querySelector(".delete-btn").addEventListener("click", () => {
+          if (confirm("هل أنت متأكد من حذف هذا السجل؟")) {
+            data.splice(index, 1);
+            localStorage.setItem("excellenceReport", JSON.stringify(data));
+            loadTable();
+          }
+        });
 
-          tableBody.appendChild(row);
+        tableBody.appendChild(row);
 
-          // Nested row - always visible
-          const nestedRow = document.createElement("tr");
-          nestedRow.className = "bg-gray-50";
+        // Nested row - always visible
+        const nestedRow = document.createElement("tr");
+        nestedRow.className = "bg-gray-50";
 
-          let pIx = 0;
-          let mIx = 0;
+        let pIx = 0;
+        let mIx = 0;
 
-          const scopeList =
-            item.scope
-              ?.map((s, i) => {
-                const scope = scopeJson.find((f) => f.scopeId == s);
-                return scope
-                  ? `<p class="mb-1">${i + 1}. ${scope.label}</p>`
+        const scopeList =
+          item.scope
+            ?.map((s, i) => {
+              const scope = scopeJson.find((f) => f.scopeId == s);
+              return scope
+                ? `<p class="mb-1">${i + 1}. ${scope.label}</p>`
+                : "";
+            })
+            .join("") || "";
+
+        const pointerList =
+          item.pointer
+            ?.map((p, i) => {
+              if (p == "add") {
+                pIx += 1;
+                return `<p class="mb-1">${i + 1}. ${item.newPointer || ""
+                  }</p>`;
+              } else {
+                const pointer = pointerJson.find((f) => f.pointerId == p);
+                return pointer
+                  ? `<p class="mb-1">${i + 1}. ${pointer.label}</p>`
                   : "";
-              })
-              .join("") || "";
+              }
+            })
+            .join("") || "";
 
-          const pointerList =
-            item.pointer
-              ?.map((p, i) => {
-                if (p == "add") {
-                  pIx += 1;
-                  return `<p class="mb-1">${i + 1}. ${
-                    item.newPointer?.[pIx - 1] || ""
+        const methodList =
+          item.method
+            ?.map((m, i) => {
+              if (m == "add") {
+                mIx += 1;
+                return `<p class="mb-1">${i + 1}. ${item.newMethod || ""
                   }</p>`;
-                } else {
-                  const pointer = pointerJson.find((f) => f.pointerId == p);
-                  return pointer
-                    ? `<p class="mb-1">${i + 1}. ${pointer.label}</p>`
-                    : "";
-                }
-              })
-              .join("") || "";
+              } else {
+                const method = methodJson.find((f) => f.methodId == m);
+                return method
+                  ? `<p class="mb-1">${i + 1}. ${method.label}</p>`
+                  : "";
+              }
+            })
+            .join("") || "";
 
-          const methodList =
-            item.method
-              ?.map((m, i) => {
-                if (m == "add") {
-                  mIx += 1;
-                  return `<p class="mb-1">${i + 1}. ${
-                    item.newMethod?.[mIx - 1] || ""
-                  }</p>`;
-                } else {
-                  const method = methodJson.find((f) => f.methodId == m);
-                  return method
-                    ? `<p class="mb-1">${i + 1}. ${method.label}</p>`
-                    : "";
-                }
-              })
-              .join("") || "";
-
-          nestedRow.innerHTML = `
+        nestedRow.innerHTML = `
           <td colspan="11" class="border p-0">
             <div class=" bg-white">
               <table class="w-full border-collapse">
@@ -261,13 +237,14 @@
           </td>
         `;
 
-          tableBody.appendChild(nestedRow);
-        });
-      }
+        tableBody.appendChild(nestedRow);
+      });
+    }
 
-      // Load table on page load
-      window.addEventListener("DOMContentLoaded", loadTable);
+    // Load table on page load
+    window.addEventListener("DOMContentLoaded", loadTable);
 
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

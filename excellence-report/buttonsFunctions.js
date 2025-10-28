@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ?.map((p, i) => {
                 if (p == "add") {
                   pIx += 1;
-                  return `<p class="mb-1">${i + 1}. ${item.newPointer?.[pIx - 1] || ""
+                  return `<p class="mb-1">${i + 1}. ${item.newPointer || ""
                     }</p>`;
                 } else {
                   const pointer = pointerJson.find(
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ?.map((m, i) => {
                 if (m == "add") {
                   mIx += 1;
-                  return `<p class="mb-1">${i + 1}. ${item.newMethod?.[mIx - 1] || ""
+                  return `<p class="mb-1">${i + 1}. ${item.newMethod || ""
                     }</p>`;
                 } else {
                   const method = methodJson.find(
