@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     var pointerData = pointerJson;
-            pointerSelect.innerHTML = `
+    pointerSelect.innerHTML = `
             <option value="">اختيار مؤشر</option>
             ${pointerData.map((item, ix) => `
             <option value="${item.pointerId}">${item.label}</option>
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <option value="3">النشاط المدرسي</option>
                 <option value="4"> التوجيه الطلابي</option>
                 <option value="5">التطوير المستمر</option>
-    
+                <option value="6">خطة التحسين</option>
             </select>
             <button class="closeExtra cursor-pointer" type="button">
                 <i class="bi bi-x-circle text-red-600"></i>
