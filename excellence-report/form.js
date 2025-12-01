@@ -3,8 +3,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-
-
     // تحويل صورة إلى Base64
     function getBase64(file) {
         return new Promise((resolve, reject) => {
