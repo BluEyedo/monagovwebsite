@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef } from "react";
 import { AchievementRecord, AchievementDetail } from "../types";
 import { scopeJson, methodJson } from "../data/selectData";
@@ -10,22 +11,36 @@ interface ExtendedDetail extends AchievementDetail {
 
 interface AchievementFormProps {
   onAdd: (record: AchievementRecord) => void;
+  onFix: (e: any) => void;
   onBack: () => void;
   onPreviewImage: (url: string) => void;
 }
 
 const AchievementForm: React.FC<AchievementFormProps> = ({
   onAdd,
+  onFix,
   onBack,
   onPreviewImage,
 }) => {
-  const [formData, setFormData] = useState({
+  const [formFixedData, setFormFixedData] = useState({
     team: "بحرة",
     supervisor: "",
+    semester: "الفصل الأول",
+  });
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    var fixedData = localStorage.getItem("fixedData");
+    if(fixedData){
+      const parsedData = JSON.parse(fixedData);
+      setFormFixedData(parsedData);
+    }
+  }, []);
+
+  const [formData, setFormData] = useState({
     day: "",
     stage: "",
     school: "",
-    semester: "الفصل الأول",
     status: "",
   });
 
@@ -47,6 +62,7 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
 
   const [images, setImages] = useState<string[]>([]);
   const [triedSubmit, setTriedSubmit] = useState(false);
+  const [triedSubmitFixed, setTriedSubmitFixed] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,6 +187,27 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
     setTriedSubmit(false);
   };
 
+  const handleSubmitFixed = (e) => {
+    e.preventDefault();
+    setTriedSubmitFixed(true);
+
+    const isValid =
+      formFixedData.supervisor && formFixedData.team && formFixedData.semester;
+
+    if (!isValid || !isValid) {
+      return;
+    }
+
+    alert("تم تثبيت البيانات بنجاح");
+
+    onFix({
+      supervisor: formFixedData.supervisor,
+      team: formFixedData.team,
+      semester: formFixedData.semester,
+    });
+    setTriedSubmitFixed(false);
+  };
+
   const getInputClasses = (value: any) => {
     const base =
       "w-full border-b outline-none py-1 text-right bg-transparent transition-colors ";
@@ -198,37 +235,93 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
         </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Basic Info */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <form onSubmit={handleSubmitFixed} className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-5 border-2 p-5 rounded-lg">
+          <p className="text-xl text-center font-bold col-span-4">البيانات الأولية</p>
+
           <div className="space-y-2">
             <label className="block text-sm font-bold">الفريق التنفيذي</label>
             <input
               readOnly
               type="text"
-              value={formData.team}
+              value={formFixedData.team}
               onChange={(e) =>
-                setFormData({ ...formData, team: e.target.value })
+                setFormFixedData({ ...formFixedData, team: e.target.value })
               }
-              className={getInputClasses(formData.team)}
+              className={getInputClasses(formFixedData.team)}
             />
           </div>
           <div className="space-y-2">
             <label className="block text-sm font-bold">اسم المشرفة</label>
             <input
               type="text"
-              value={formData.supervisor}
+              value={formFixedData.supervisor}
               onChange={(e) =>
-                setFormData({ ...formData, supervisor: e.target.value })
+                setFormFixedData({
+                  ...formFixedData,
+                  supervisor: e.target.value,
+                })
               }
-              className={getInputClasses(formData.supervisor)}
+              className={getInputClasses(formFixedData.supervisor)}
             />
-            {triedSubmit && !formData.supervisor && (
+            {triedSubmitFixed && !formFixedData.supervisor && (
               <p className="text-[10px] text-red-500 font-bold">
                 هذا الحقل مطلوب
               </p>
             )}
           </div>
+
+          <div className="flex flex-col items-center">
+            <label className="block text-sm font-bold mb-2">
+              الفصل الدراسي
+            </label>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="radio"
+                  name="semester"
+                  value="الفصل الأول"
+                  checked={formFixedData.semester === "الفصل الأول"}
+                  onChange={(e) =>
+                    setFormFixedData({
+                      ...formFixedData,
+                      semester: e.target.value,
+                    })
+                  }
+                />
+                الفصل الأول
+              </label>
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input
+                  type="radio"
+                  name="semester"
+                  value="الفصل الثاني"
+                  checked={triedSubmitFixed.semester === "الفصل الثاني"}
+                  onChange={(e) =>
+                    setFormFixedData({
+                      ...formFixedData,
+                      semester: e.target.value,
+                    })
+                  }
+                />
+                الفصل الثاني
+              </label>
+            </div>
+          </div>
+          <div className="col-span-4 flex justify-center pt-4">
+            <button
+              type="submit"
+              className="bg-[#10b981] hover:bg-[#059669] text-white font-black py-2 px-10 rounded-2xl shadow-xl transition-all active:scale-95 transform hover:-translate-y-1"
+            >
+              تثبيت البيانات
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Basic Info */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="">
             <label className="block text-sm font-bold">اليوم</label>
             <select
@@ -344,37 +437,6 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
                 هذا الحقل مطلوب
               </p>
             )}
-          </div>
-          <div className="flex flex-col items-center">
-            <label className="block text-sm font-bold mb-2">
-              الفصل الدراسي
-            </label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="radio"
-                  name="semester"
-                  value="الفصل الأول"
-                  checked={formData.semester === "الفصل الأول"}
-                  onChange={(e) =>
-                    setFormData({ ...formData, semester: e.target.value })
-                  }
-                />
-                الفصل الأول
-              </label>
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="radio"
-                  name="semester"
-                  value="الفصل الثاني"
-                  checked={formData.semester === "الفصل الثاني"}
-                  onChange={(e) =>
-                    setFormData({ ...formData, semester: e.target.value })
-                  }
-                />
-                الفصل الثاني
-              </label>
-            </div>
           </div>
         </div>
 

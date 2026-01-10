@@ -1,20 +1,19 @@
+import React, { useState, useEffect } from "react";
+import TiltedBox from "./components/TiltedBox";
+import ReportButton from "./components/ReportButton";
+import AchievementForm from "./components/AchievementForm";
+import AchievementTable from "./components/AchievementTable";
+import PrintReport from "./components/PrintReport";
+import { AchievementRecord } from "./types";
 
-import React, { useState, useEffect } from 'react';
-import TiltedBox from './components/TiltedBox';
-import ReportButton from './components/ReportButton';
-import AchievementForm from './components/AchievementForm';
-import AchievementTable from './components/AchievementTable';
-import PrintReport from './components/PrintReport';
-import { AchievementRecord } from './types';
-
-const STORAGE_KEY_RECORDS = 'excellenceReport';
-const STORAGE_KEY_VIEW = 'excellence_portal_current_view';
+const STORAGE_KEY_RECORDS = "excellenceReport";
+const STORAGE_KEY_VIEW = "excellence_portal_current_view";
 
 const App: React.FC = () => {
   // Initialize view state from localStorage to persist across refreshes
-  const [view, setView] = useState<'home' | 'form'>(() => {
+  const [view, setView] = useState<"home" | "form">(() => {
     const savedView = localStorage.getItem(STORAGE_KEY_VIEW);
-    return (savedView as 'home' | 'form') || 'home';
+    return (savedView as "home" | "form") || "home";
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +22,12 @@ const App: React.FC = () => {
     const saved = localStorage.getItem(STORAGE_KEY_RECORDS);
     return saved ? JSON.parse(saved) : [];
   });
+
+  const [fixedData, setFixedData] = useState<any>(() => {
+    const saved = localStorage.getItem("fixedData");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   // Sync records to localStorage whenever they change
@@ -36,68 +41,76 @@ const App: React.FC = () => {
   }, [view]);
 
   const handleGenerateReport = () => {
-    setView('form');
+    setView("form");
   };
 
   const handleAddRecord = (record: AchievementRecord) => {
-    setRecords(prev => [...prev, record]);
+    setRecords((prev) => [...prev, record]);
+  };
+
+  const handleModifyFixedData = (data: any) => {
+    setFixedData(data);
+    localStorage.setItem("fixedData", JSON.stringify(data));
+    console.log("fixedData", localStorage.getItem("fixedData"));
   };
 
   const handleDeleteAll = () => {
-    const message = records.length === 1 
-      ? 'هل أنت متأكد من حذف السجل الوحيد الموجود؟' 
-      : `هل أنت متأكد من حذف جميع السجلات (${records.length}) بالكامل؟`;
+    const message =
+      records.length === 1
+        ? "هل أنت متأكد من حذف السجل الوحيد الموجود؟"
+        : `هل أنت متأكد من حذف جميع السجلات (${records.length}) بالكامل؟`;
 
     if (window.confirm(`⚠️ تنبيه: ${message} لا يمكن التراجع عن هذه الخطوة.`)) {
       setRecords([]);
-      alert('تم مسح البيانات بنجاح');
+      alert("تم مسح البيانات بنجاح");
     }
   };
 
   const handleDeleteOne = (id: number) => {
-    if (window.confirm('هل أنت متأكد من حذف هذا السجل المحدد؟')) {
-      setRecords(prev => prev.filter(r => r.id !== id));
+    if (window.confirm("هل أنت متأكد من حذف هذا السجل المحدد؟")) {
+      setRecords((prev) => prev.filter((r) => r.id !== id));
     }
   };
 
-  if (view === 'form') {
+  if (view === "form") {
     return (
       <div className="min-h-screen bg-[#f8fafc] text-gray-900 py-12 px-4 md:px-8 relative print:bg-white print:p-0 print:py-0">
         <div className="no-print">
-          <AchievementForm 
-            onAdd={handleAddRecord} 
-            onBack={() => setView('home')} 
+          <AchievementForm
+            onAdd={handleAddRecord}
+            onBack={() => setView("home")}
             onPreviewImage={setPreviewImage}
+            onFix={handleModifyFixedData}
           />
         </div>
-        
+
         <div className="my-12 flex justify-center w-full max-w-6xl mx-auto no-print">
           <div className="w-full border-t border-gray-300"></div>
         </div>
 
-        <AchievementTable 
-          records={records} 
-          onDeleteAll={handleDeleteAll} 
+        <AchievementTable
+          records={records}
+          onDeleteAll={handleDeleteAll}
           onDeleteOne={handleDeleteOne}
           onPreviewImage={setPreviewImage}
         />
 
         {/* This component is only visible when printing */}
-        <PrintReport records={records} />
+        <PrintReport records={records} fixedData={fixedData} />
 
         {/* Global Image Preview Lightbox */}
         {previewImage && (
-          <div 
+          <div
             className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out no-print"
             onClick={() => setPreviewImage(null)}
           >
             <div className="relative max-w-5xl max-h-[90vh]">
-              <img 
-                src={previewImage} 
-                alt="Preview" 
-                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300" 
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300"
               />
-              <button 
+              <button
                 className="absolute -top-12 right-0 text-white text-4xl font-light hover:text-gray-300 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -133,10 +146,7 @@ const App: React.FC = () => {
           </div>
         </TiltedBox>
 
-        <ReportButton 
-          onClick={handleGenerateReport} 
-          isLoading={isLoading} 
-        />
+        <ReportButton onClick={handleGenerateReport} isLoading={isLoading} />
       </main>
 
       <footer className="fixed bottom-0 left-0 w-full p-6 text-center space-y-2 z-10 bg-gradient-to-t from-black/60 to-transparent">
