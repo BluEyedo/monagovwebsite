@@ -135,7 +135,7 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
     setTriedSubmit(true);
 
     const isBasicValid =
-      formData.supervisor &&
+      // formData.supervisor &&
       formData.day &&
       hijriDate.day &&
       hijriDate.month &&
@@ -160,9 +160,9 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
 
     onAdd({
       id: Date.now(),
-      semester: formData.semester,
-      team: formData.team,
-      supervisor: formData.supervisor,
+      // semester: formData.semester,
+      // team: formData.team,
+      // supervisor: formData.supervisor,
       day: formData.day,
       date: formattedDate,
       school: formData.school,
