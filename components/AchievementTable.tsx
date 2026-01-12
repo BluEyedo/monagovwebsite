@@ -125,7 +125,7 @@ const AchievementTable: React.FC<AchievementTableProps> = ({
             </svg>
             طباعة التقرير
           </button>
-          <button
+          {/* <button
             onClick={handleExportCSV}
             className="bg-[#0891b2] hover:bg-[#0e7490] text-white px-5 py-2 rounded-lg flex items-center gap-2 text-sm font-bold shadow-md transition-all active:scale-95"
           >
@@ -141,7 +141,7 @@ const AchievementTable: React.FC<AchievementTableProps> = ({
               <path d="M14 2v6h6M8 13h8M8 17h8M10 9H8" />
             </svg>
             تصدير إلى Excel
-          </button>
+          </button> */}
           <button
             onClick={onDeleteAll}
             className="bg-[#ef4444] hover:bg-[#dc2626] text-white px-5 py-2 rounded-lg flex items-center gap-2 text-sm font-bold shadow-md transition-all active:scale-95"
