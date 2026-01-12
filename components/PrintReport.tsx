@@ -227,11 +227,7 @@ const PrintReport: React.FC<PrintReportProps> = ({ records, fixedData }) => {
           }
         }
       `}</style>
-      <div
-      //  className="hidden print:block"
-      >
-        {renderPages()}
-      </div>
+      <div className="hidden print:block">{renderPages()}</div>
     </>
   );
 };
