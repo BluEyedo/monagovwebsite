@@ -12,6 +12,7 @@ interface AchievementRecord {
   school: string;
   stage: string;
   status: string;
+  witness: string[];
   details: DetailRecord[];
 }
 
@@ -35,18 +36,17 @@ const PrintReport: React.FC<PrintReportProps> = ({ records, fixedData }) => {
     );
   }
 
-  const RECORDS_PER_PAGE = 3;
+  const RECORDS_PER_PAGE = 2;
 
   const HeaderRow = () => (
     <tr className="bg-gray-200 font-bold text-xs">
-      <th className="border border-black p-2 w-12">م</th>
+      <th className="border border-black p-2 w-5">م</th>
       <th className="border border-black p-2 w-24">اليوم</th>
       <th className="border border-black p-2 w-24">التاريخ</th>
-      <th colSpan={3} className="border border-black p-2">
-        المدرسة
-      </th>
+      <th className="border border-black p-2 w-72">المدرسة</th>
       <th className="border border-black p-2 w-24">المرحلة</th>
-      <th className="border border-black p-2 w-32">حالة الإنجاز</th>
+      <th className="border border-black p-2 w-24">حالة الإنجاز</th>
+      <th className="border border-black p-2 w-40">الشواهد</th>
     </tr>
   );
 
@@ -127,17 +127,24 @@ const PrintReport: React.FC<PrintReportProps> = ({ records, fixedData }) => {
 
       {/* Main Record Row */}
       <tr>
-        <td className="border border-black p-2 text-center font-bold bg-gray-50">
-          {index + 1}
-        </td>
-        <td className="border border-black p-2">{rec.day}</td>
-        <td className="border border-black p-2">{rec.date}</td>
-        <td colSpan={3} className="border border-black p-2">
-          {rec.school}
-        </td>
-        <td className="border border-black p-2">{rec.stage}</td>
-        <td className="border border-black p-2 text-center font-bold">
-          {rec.status}
+        <td className=" p-2 text-center font-bold bg-gray-50">{index + 1}</td>
+        <td className=" p-2">{rec.day}</td>
+        <td className=" p-2">{rec.date}</td>
+        <td className=" p-2">{rec.school}</td>
+        <td className=" p-2">{rec.stage}</td>
+        <td className=" p-2 text-center font-bold">{rec.status}</td>
+        <td className=" p-2 text-center font-bold flex flex-wrap gap-1">
+          {rec?.witness.length > 0
+            ? rec?.witness?.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt="witness"
+                  className="w-10 h-10 object-cover rounded border border-gray-400 cursor-zoom-in hover:scale-125 transition-transform shadow-sm"
+                  // onClick={() => onPreviewImage(img)}
+                />
+              ))
+            : "لا توجد شواهد"}{" "}
         </td>
       </tr>
 
