@@ -31,7 +31,7 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
   React.useEffect(() => {
     if (typeof window === "undefined") return;
     var fixedData = localStorage.getItem("fixedData");
-    if(fixedData){
+    if (fixedData) {
       const parsedData = JSON.parse(fixedData);
       setFormFixedData(parsedData);
     }
@@ -218,9 +218,9 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
 
   return (
     <div className="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden text-gray-800 p-8">
-      <div className="flex justify-between items-start mb-10">
+      <div className="flex flex-col md:flex-row justify-between items-start mb-10">
         <div className="flex-1 text-center">
-          <h1 className="text-2xl font-bold border-black inline-block pb-1">
+          <h1 className="text-lg md:text-2xl font-bold border-black inline-block pb-1">
             تقرير إنجاز مقدم خدمات دعم التميز المدرسي
           </h1>
         </div>
@@ -236,76 +236,79 @@ const AchievementForm: React.FC<AchievementFormProps> = ({
       </div>
 
       <form onSubmit={handleSubmitFixed} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-5 border-2 p-5 rounded-lg">
-          <p className="text-xl text-center font-bold col-span-4">البيانات الأولية</p>
+        <div className=" gap-6 mb-5 border-2 p-5 rounded-lg">
+          <p className="text-xl text-center font-bold col-span-4">
+            البيانات الأولية
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-bold">الفريق التنفيذي</label>
+              <input
+                readOnly
+                type="text"
+                value={formFixedData.team}
+                onChange={(e) =>
+                  setFormFixedData({ ...formFixedData, team: e.target.value })
+                }
+                className={getInputClasses(formFixedData.team)}
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-bold">اسم المشرفة</label>
+              <input
+                type="text"
+                value={formFixedData.supervisor}
+                onChange={(e) =>
+                  setFormFixedData({
+                    ...formFixedData,
+                    supervisor: e.target.value,
+                  })
+                }
+                className={getInputClasses(formFixedData.supervisor)}
+              />
+              {triedSubmitFixed && !formFixedData.supervisor && (
+                <p className="text-[10px] text-red-500 font-bold">
+                  هذا الحقل مطلوب
+                </p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <label className="block text-sm font-bold">الفريق التنفيذي</label>
-            <input
-              readOnly
-              type="text"
-              value={formFixedData.team}
-              onChange={(e) =>
-                setFormFixedData({ ...formFixedData, team: e.target.value })
-              }
-              className={getInputClasses(formFixedData.team)}
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="block text-sm font-bold">اسم المشرفة</label>
-            <input
-              type="text"
-              value={formFixedData.supervisor}
-              onChange={(e) =>
-                setFormFixedData({
-                  ...formFixedData,
-                  supervisor: e.target.value,
-                })
-              }
-              className={getInputClasses(formFixedData.supervisor)}
-            />
-            {triedSubmitFixed && !formFixedData.supervisor && (
-              <p className="text-[10px] text-red-500 font-bold">
-                هذا الحقل مطلوب
-              </p>
-            )}
-          </div>
-
-          <div className="flex flex-col items-center">
-            <label className="block text-sm font-bold mb-2">
-              الفصل الدراسي
-            </label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="radio"
-                  name="semester"
-                  value="الفصل الأول"
-                  checked={formFixedData.semester === "الفصل الأول"}
-                  onChange={(e) =>
-                    setFormFixedData({
-                      ...formFixedData,
-                      semester: e.target.value,
-                    })
-                  }
-                />
-                الفصل الأول
+            <div className="flex flex-col items-center">
+              <label className="block text-sm font-bold mb-2">
+                الفصل الدراسي
               </label>
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input
-                  type="radio"
-                  name="semester"
-                  value="الفصل الثاني"
-                  checked={triedSubmitFixed.semester === "الفصل الثاني"}
-                  onChange={(e) =>
-                    setFormFixedData({
-                      ...formFixedData,
-                      semester: e.target.value,
-                    })
-                  }
-                />
-                الفصل الثاني
-              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="radio"
+                    name="semester"
+                    value="الفصل الأول"
+                    checked={formFixedData.semester === "الفصل الأول"}
+                    onChange={(e) =>
+                      setFormFixedData({
+                        ...formFixedData,
+                        semester: e.target.value,
+                      })
+                    }
+                  />
+                  الفصل الأول
+                </label>
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="radio"
+                    name="semester"
+                    value="الفصل الثاني"
+                    checked={triedSubmitFixed.semester === "الفصل الثاني"}
+                    onChange={(e) =>
+                      setFormFixedData({
+                        ...formFixedData,
+                        semester: e.target.value,
+                      })
+                    }
+                  />
+                  الفصل الثاني
+                </label>
+              </div>
             </div>
           </div>
           <div className="col-span-4 flex justify-center pt-4">
